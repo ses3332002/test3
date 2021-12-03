@@ -3,11 +3,14 @@
   "version": "1.0.0",
   "description": "testing parcel2",
   "source": "src/index.html",
+  "homepage": "https://ses3332002.github.io/test3",
   "browserslist": "> 5%, last 2 versions, not dead",
   "scripts": {
-    "start": "parcel",
+    "start": "parcel --open",
+    "prestart": "shx rm -rf .parcel-cache/*",
     "prebuild": "shx rm -rf dist/*",
     "build": "parcel build --public-url ./ --no-source-maps",
+    "predeploy": "npm run build",
     "deploy": "gh-pages -d dist"
   },
   "author": "",

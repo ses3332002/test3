@@ -16,7 +16,7 @@ export default function App() {
           setCurUser,
         }}
       >
-        <BrowserRouter>
+        <BrowserRouter basename={process.env.BASENAME}>
           <Routes>
             <Route path="/" element={<Welcome />} />
             <Route path="/users" element={<Users />} />
