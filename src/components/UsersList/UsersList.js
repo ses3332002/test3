@@ -4,7 +4,7 @@ import { Navigate } from 'react-router-dom';
 import { AppContext } from '../App/App';
 import { getUsers } from '../../data/usersAPI';
 
-export default function UsersList({ selectedGender, defaultGender }) {
+export default function UsersList({ selectedGender }) {
   const pageSize = 20;
   const columns = [
     {
@@ -34,16 +34,12 @@ export default function UsersList({ selectedGender, defaultGender }) {
   let [isEditing, setIsEditing] = useState(false);
   let { setCurUser } = useContext(AppContext);
 
-  function onChange(currentPage) {
+  function onPageChange(currentPage) {
     setPage(currentPage);
   }
 
   useEffect(() => {
-    let request = '?';
-    if (selectedGender !== defaultGender) {
-      request = `?gender=${selectedGender}&`;
-    }
-    getUsers(request, page).then(data => {
+    getUsers(selectedGender, page).then(({ data }) => {
       setPaginationInfo(data.meta.pagination);
       setUsers(data.data);
     });
@@ -52,6 +48,7 @@ export default function UsersList({ selectedGender, defaultGender }) {
   if (isEditing) {
     return <Navigate replace to="/edit" />;
   }
+
   if (users.length === 0) {
     return <Spin />;
   } else {
@@ -77,7 +74,7 @@ export default function UsersList({ selectedGender, defaultGender }) {
 
         <Pagination
           style={{ margin: 10 }}
-          onChange={onChange}
+          onChange={onPageChange}
           total={paginationInfo.total}
           showTotal={total => `Total ${total} items`}
           pageSize={pageSize}

@@ -1,7 +1,7 @@
 import React, { useState, useContext } from 'react';
 import { Navigate } from 'react-router-dom';
 import { Select, Form, Input, Button, message } from 'antd';
-import { editUser } from '../../data/usersAPI';
+import { patchUser } from '../../data/usersAPI';
 import { AppContext } from '../App/App';
 import './Editor.css';
 
@@ -31,18 +31,18 @@ export default function Editor() {
   };
 
   function submitForm(value) {
-    editUser({
+    patchUser({
       id: curUser.id,
       name: value.username,
       email: value.email,
       gender: value.gender,
-    }).then(response => {
-      if (response.status === 200) {
+    }).then(({ request }) => {
+      if (request.status === 200) {
         setIsUpdated(true);
         setCurUser(null);
         message.success('User record was updated');
       }
-      return response.json();
+      return request;
     });
   }
 
