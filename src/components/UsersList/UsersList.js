@@ -4,7 +4,7 @@ import { Navigate } from 'react-router-dom';
 import { AppContext } from '../App/App';
 import { getUsers } from '../../data/usersAPI';
 
-export default function UsersList({ selectedGender }) {
+export function UsersList({ selectedGender }) {
   const pageSize = 20;
   const columns = [
     {
@@ -32,7 +32,7 @@ export default function UsersList({ selectedGender }) {
   let [users, setUsers] = useState([]);
   let [page, setPage] = useState(1);
   let [isEditing, setIsEditing] = useState(false);
-  let { setCurUser } = useContext(AppContext);
+  let { dispatch, userAC } = useContext(AppContext);
 
   function onPageChange(currentPage) {
     setPage(currentPage);
@@ -58,7 +58,7 @@ export default function UsersList({ selectedGender }) {
           onRow={record => {
             return {
               onClick: event => {
-                setCurUser(record);
+                dispatch(userAC(record));
                 setIsEditing(true);
               },
             };

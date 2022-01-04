@@ -7,9 +7,9 @@ import './Editor.css';
 
 const { Option } = Select;
 
-export default function Editor() {
+export function Editor() {
   let [isUpdated, setIsUpdated] = useState(false);
-  let { curUser, setCurUser } = useContext(AppContext);
+  let { state, dispatch, userAC } = useContext(AppContext);
   const [form] = Form.useForm();
   const formItemLayout = {
     labelCol: {
@@ -32,21 +32,21 @@ export default function Editor() {
 
   function submitForm(value) {
     patchUser({
-      id: curUser.id,
+      id: state.curUser.id,
       name: value.username,
       email: value.email,
       gender: value.gender,
     }).then(({ request }) => {
       if (request.status === 200) {
         setIsUpdated(true);
-        setCurUser(null);
+        dispatch(userAC(null));
         message.success('User record was updated');
       }
       return request;
     });
   }
 
-  if (curUser === null) {
+  if (state.curUser === null) {
     return <h2>No data to edit</h2>;
   } else if (isUpdated) {
     return <Navigate replace to="/users" />;
@@ -58,9 +58,9 @@ export default function Editor() {
         form={form}
         name="basic"
         initialValues={{
-          username: curUser.name,
-          email: curUser.email,
-          gender: curUser.gender,
+          username: state.curUser.name,
+          email: state.curUser.email,
+          gender: state.curUser.gender,
         }}
         onFinish={submitForm}
         requiredMark={false}

@@ -2,9 +2,9 @@ import { Select } from 'antd';
 
 const { Option } = Select;
 
-export default function Filter({ selectedGender, setSelectedGender }) {
+export function Filter({ selectedGender, dispatch, genderAC }) {
   function handleChange(value) {
-    setSelectedGender(value);
+    dispatch(genderAC(value));
   }
 
   return (

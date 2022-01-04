@@ -1,15 +1,16 @@
-import { useState } from 'react';
-import Filter from '../Filter/Filter';
-import UsersList from '../UsersList/UsersList';
-import { defaultGender } from '../../data/variables';
+import { useContext } from 'react';
+import { Filter } from '../Filter/Filter';
+import { UsersList } from '../UsersList/UsersList';
+import { AppContext } from '../App/App';
 import './Users.css';
 
-export default function Users() {
-  let [selectedGender, setSelectedGender] = useState(defaultGender);
+export function Users() {
+  let { state, dispatch, genderAC } = useContext(AppContext);
+
   return (
     <section className="users">
-      <Filter selectedGender={selectedGender} setSelectedGender={setSelectedGender} />
-      <UsersList selectedGender={selectedGender} />
+      <Filter selectedGender={state.selectedGender} dispatch={dispatch} genderAC={genderAC} />
+      <UsersList selectedGender={state.selectedGender} />
     </section>
   );
 }
