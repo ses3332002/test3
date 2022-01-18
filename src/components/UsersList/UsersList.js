@@ -30,20 +30,19 @@ export function UsersList({ selectedGender }) {
 
   let [paginationInfo, setPaginationInfo] = useState({});
   let [users, setUsers] = useState([]);
-  let [page, setPage] = useState(1);
   let [isEditing, setIsEditing] = useState(false);
-  let { dispatch, userAC } = useContext(AppContext);
+  let { dispatch, userAC, pageAC, state } = useContext(AppContext);
 
   function onPageChange(currentPage) {
-    setPage(currentPage);
+    dispatch(pageAC(currentPage));
   }
 
   useEffect(() => {
-    getUsers(selectedGender, page).then(({ data }) => {
+    getUsers(selectedGender, state.page).then(({ data }) => {
       setPaginationInfo(data.meta.pagination);
       setUsers(data.data);
     });
-  }, [selectedGender, page]);
+  }, [selectedGender, state.page]);
 
   if (isEditing) {
     return <Navigate replace to="/edit" />;
@@ -78,7 +77,7 @@ export function UsersList({ selectedGender }) {
           total={paginationInfo.total}
           showTotal={total => `Total ${total} items`}
           pageSize={pageSize}
-          defaultCurrent={page}
+          defaultCurrent={state.page}
           showSizeChanger={false}
         />
       </>
