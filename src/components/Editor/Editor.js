@@ -1,4 +1,5 @@
 import React, { useState, useContext } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { Navigate } from 'react-router-dom';
 import { Select, Form, Input, Button, message } from 'antd';
 import { patchUser } from '../../data/usersAPI';
@@ -9,7 +10,9 @@ const { Option } = Select;
 
 export function Editor() {
   let [isUpdated, setIsUpdated] = useState(false);
-  let { state, dispatch, userAC } = useContext(AppContext);
+  let { userAC } = useContext(AppContext);
+  let dispatch = useDispatch();
+  let curUser = useSelector(state => state.curUser);
   const [form] = Form.useForm();
   const formItemLayout = {
     labelCol: {
@@ -32,7 +35,7 @@ export function Editor() {
 
   function submitForm(value) {
     patchUser({
-      id: state.curUser.id,
+      id: curUser.id,
       name: value.username,
       email: value.email,
       gender: value.gender,
@@ -46,7 +49,7 @@ export function Editor() {
     });
   }
 
-  if (state.curUser === null) {
+  if (curUser === null) {
     return <h2>No data to edit</h2>;
   } else if (isUpdated) {
     return <Navigate replace to="/users" />;
@@ -58,9 +61,9 @@ export function Editor() {
         form={form}
         name="basic"
         initialValues={{
-          username: state.curUser.name,
-          email: state.curUser.email,
-          gender: state.curUser.gender,
+          username: curUser.name,
+          email: curUser.email,
+          gender: curUser.gender,
         }}
         onFinish={submitForm}
         requiredMark={false}

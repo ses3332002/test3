@@ -1,10 +1,11 @@
 import { useState, useEffect, useContext } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { Pagination, Table, Spin } from 'antd';
 import { Navigate } from 'react-router-dom';
 import { AppContext } from '../App/App';
 import { getUsers } from '../../data/usersAPI';
 
-export function UsersList({ selectedGender }) {
+export function UsersList() {
   const pageSize = 20;
   const columns = [
     {
@@ -28,21 +29,24 @@ export function UsersList({ selectedGender }) {
     },
   ];
 
+  let dispatch = useDispatch();
+  let state = useSelector(state => state);
+
   let [paginationInfo, setPaginationInfo] = useState({});
   let [users, setUsers] = useState([]);
   let [isEditing, setIsEditing] = useState(false);
-  let { dispatch, userAC, pageAC, state } = useContext(AppContext);
+  let { userAC, pageAC } = useContext(AppContext);
 
   function onPageChange(currentPage) {
     dispatch(pageAC(currentPage));
   }
 
   useEffect(() => {
-    getUsers(selectedGender, state.page).then(({ data }) => {
+    getUsers(state.selectedGender, state.page).then(({ data }) => {
       setPaginationInfo(data.meta.pagination);
       setUsers(data.data);
     });
-  }, [selectedGender, state.page]);
+  }, [state.selectedGender, state.page]);
 
   if (isEditing) {
     return <Navigate replace to="/edit" />;
