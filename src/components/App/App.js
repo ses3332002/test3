@@ -1,6 +1,6 @@
 import React, { createContext } from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import { userAC, genderAC, pageAC } from '../../data/store';
+import { userAC, genderAC, pageAC, getUsersAC } from '../../data/store';
 import { Users } from '../Users/Users';
 import { Editor } from '../Editor/Editor';
 import { Welcome } from '../Welcome/Welcome';
@@ -14,6 +14,7 @@ export function App() {
         userAC,
         genderAC,
         pageAC,
+        getUsersAC,
       }}
     >
       <BrowserRouter basename={process.env.BASENAME}>

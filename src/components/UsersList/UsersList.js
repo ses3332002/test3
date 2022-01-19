@@ -3,7 +3,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Pagination, Table, Spin } from 'antd';
 import { Navigate } from 'react-router-dom';
 import { AppContext } from '../App/App';
-import { getUsers } from '../../data/usersAPI';
 
 export function UsersList() {
   const pageSize = 20;
@@ -31,28 +30,22 @@ export function UsersList() {
 
   let dispatch = useDispatch();
   let state = useSelector(state => state);
-
-  let [paginationInfo, setPaginationInfo] = useState({});
-  let [users, setUsers] = useState([]);
   let [isEditing, setIsEditing] = useState(false);
-  let { userAC, pageAC } = useContext(AppContext);
+  let { userAC, pageAC, getUsersAC } = useContext(AppContext);
 
   function onPageChange(currentPage) {
     dispatch(pageAC(currentPage));
   }
 
   useEffect(() => {
-    getUsers(state.selectedGender, state.page).then(({ data }) => {
-      setPaginationInfo(data.meta.pagination);
-      setUsers(data.data);
-    });
+    dispatch(getUsersAC(state.selectedGender, state.page));
   }, [state.selectedGender, state.page]);
 
   if (isEditing) {
     return <Navigate replace to="/edit" />;
   }
 
-  if (users.length === 0) {
+  if (state.users.length === 0) {
     return <Spin />;
   } else {
     return (
@@ -69,7 +62,7 @@ export function UsersList() {
           style={{ width: '90vw', cursor: 'pointer' }}
           columns={columns}
           size="middle"
-          dataSource={users}
+          dataSource={state.users}
           pagination={false}
           rowKey={record => record.id + ''}
           scroll={{ y: '75vh' }}
@@ -78,7 +71,7 @@ export function UsersList() {
         <Pagination
           style={{ margin: 10 }}
           onChange={onPageChange}
-          total={paginationInfo.total}
+          total={state.paginationInfo.total}
           showTotal={total => `Total ${total} items`}
           pageSize={pageSize}
           defaultCurrent={state.page}
