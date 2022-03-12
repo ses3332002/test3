@@ -1,7 +1,7 @@
 name: test
 
 env:
-  REACT_APP_VERSION: $GITHUB_RUN_ATTEMPT
+  REACT_APP_VERSION: $GITHUB_RUN_NUMBER
 
 on:
   push:
@@ -9,15 +9,14 @@ on:
     - master
 
 jobs:
-  build:
-    
+  build: 
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
-    - name: node
+    - name: git
+      uses: actions/checkout@v2
+    - name: node2
       uses: actions/setup-node@v2
-      with:
-        node-version: ${{ matrix.node-version }}
-        cache: 'npm'
     - run: npm i
+    - run: echo ${{ env.REACT_APP_VERSION}}
     - run: npm run build --if-present
+
