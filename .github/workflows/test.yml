@@ -1,5 +1,8 @@
 name: test
 
+env: 
+  REACT_APP_VERSION: $GITHUB_RUN_NUMBER
+
 on:
   push:
     branches: 
@@ -17,8 +20,6 @@ jobs:
       with:
         node-version: '16.x'
     - name: build
-      env: 
-        REACT_APP_VERSION: $GITHUB_RUN_NUMBER
       run: npm ci
     - run: echo ${{ env.REACT_APP_VERSION }}
     - run: npm run build
