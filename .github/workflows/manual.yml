@@ -22,7 +22,7 @@ jobs:
     - name: build
       env:
           ENV: dev
-    - run: npm ci
+      run: npm ci
     - run: echo ${{ env.REACT_APP_VERSION}}
     - run: npm run build --if-present
     - run: npm run deploy
