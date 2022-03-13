@@ -26,5 +26,10 @@ jobs:
     - run: echo ${{ env.REACT_APP_VERSION}}
     - run: git config user.email "ses3332002@gmail.com"
     - run: git config user.name "Sergey Gavrilov"
-    - run: npm run deploy
+    - run: npm run build
+    - name: deploy
+      uses: peaceiris/actions-gh-pages@v3
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_dir: ./dist
 
