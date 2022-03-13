@@ -6,7 +6,7 @@ env:
 on:
   push:
     branches: 
-    - master
+    - redux
 
 jobs:
   build: 
@@ -24,8 +24,7 @@ jobs:
           ENV: dev
       run: npm ci
     - run: echo ${{ env.REACT_APP_VERSION}}
-    - run: git config user.email "ses3332002@gmail.com"
-    - run: git config user.name "Sergey Gavrilov"
+    - run: git checkout redux
     - run: npm run build
     - name: deploy
       uses: peaceiris/actions-gh-pages@v3
