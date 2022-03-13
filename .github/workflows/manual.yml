@@ -6,7 +6,7 @@ env:
 on:
   push:
     branches: 
-    - master
+    - redux
 
 jobs:
   build: 
@@ -24,11 +24,9 @@ jobs:
           ENV: dev
       run: npm ci
     - run: echo ${{ env.REACT_APP_VERSION}}
-    - run: git checkout redux
     - run: npm run build
     - name: deploy
       uses: peaceiris/actions-gh-pages@v3
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
         publish_dir: ./dist
-
