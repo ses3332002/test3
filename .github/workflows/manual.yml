@@ -24,6 +24,7 @@ jobs:
           ENV: dev
       run: npm ci
     - run: echo ${{ env.REACT_APP_VERSION}}
-    - run: npm run build --if-present
+    - run: git config user.email "ses3332002@gmail.com"
+    - run: git config user.name "Sergey Gavrilov"
     - run: npm run deploy
 
