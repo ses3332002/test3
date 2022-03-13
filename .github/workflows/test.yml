@@ -1,0 +1,32 @@
+name: test
+
+env:
+  REACT_APP_VERSION: $GITHUB_RUN_NUMBER
+
+on:
+  push:
+    branches: 
+    - redux
+
+jobs:
+  build: 
+    runs-on: ubuntu-latest
+   
+    steps:
+    - name: git
+      uses: actions/checkout@v2
+    - name: node
+      uses: actions/setup-node@v2
+      with:
+        node-version: '16.x'
+    - name: build
+      env:
+          ENV: dev
+      run: npm ci
+    - run: echo ${{ env.REACT_APP_VERSION}}
+    - run: npm run build
+    - name: deploy
+      uses: peaceiris/actions-gh-pages@v3
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_dir: ./dist
