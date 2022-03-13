@@ -20,10 +20,8 @@ jobs:
       with:
         node-version: '16.x'
     - name: build
-      env:
-          ENV: dev
       run: npm ci
-    - run: echo ${{ env.REACT_APP_VERSION}}
+    - run: echo ${{ env.REACT_APP_VERSION }}
     - run: npm run build
     - name: deploy
       uses: peaceiris/actions-gh-pages@v3

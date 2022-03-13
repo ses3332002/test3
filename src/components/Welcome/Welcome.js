@@ -6,7 +6,7 @@ export function Welcome() {
   return (
     <main>
       <h1>Welcome to Users test project</h1>
-      version{process.env.REACT_APP_VERSION}
+      version {process.env.REACT_APP_VERSION}
       <Link to="/users">
         <Button>Start</Button>
       </Link>
