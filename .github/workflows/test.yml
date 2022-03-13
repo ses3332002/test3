@@ -1,7 +1,7 @@
 name: test
 
 env: 
-  REACT_APP_VERSION: $GITHUB_RUN_NUMBER
+  REACT_APP_VERSION: ${{ github.run_number }}
 
 on:
   push:
